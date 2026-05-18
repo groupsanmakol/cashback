@@ -117,17 +117,26 @@
             Giá sản phẩm:
             <span id="productPrice"></span>
         </div>
-        <div style="display:none;">
-    Hoa hồng Xtra:
-    <span id="commissionFull"></span>
-</div>
 
+        <!-- Ẩn hoa hồng gốc -->
+        <div style="display:none;">
+            Hoa hồng Xtra:
+            <span id="commissionFull"></span>
+        </div>
 
         <div>
             Tiền hoàn có thể nhận được:
             <span
                 class="money"
                 id="commissionHalf"
+            ></span>
+        </div>
+
+        <div>
+            Tỷ lệ hoàn tiền dự kiến:
+            <span
+                class="money"
+                id="cashbackRate"
             ></span>
         </div>
 
@@ -159,6 +168,9 @@ async function checkCommission() {
     const commissionHalf =
         document.getElementById("commissionHalf");
 
+    const cashbackRate =
+        document.getElementById("cashbackRate");
+
     if (!link) {
 
         alert("Vui lòng nhập link Shopee");
@@ -174,6 +186,7 @@ async function checkCommission() {
     productPrice.innerHTML = "";
     commissionFull.innerHTML = "";
     commissionHalf.innerHTML = "";
+    cashbackRate.innerHTML = "";
 
     try {
 
@@ -199,8 +212,17 @@ async function checkCommission() {
         const commission =
             Number(info.commission || 0);
 
+        // % hoa hồng Xtra
+        const commissionRate =
+            Number(info.commissionRate || 0);
+
+        // 50% tiền hoa hồng
         const halfCommission =
             Math.round(commission * 0.5);
+
+        // 50% tỷ lệ hoa hồng
+        const cashbackPercent =
+            (commissionRate * 0.5).toFixed(1);
 
         productName.innerHTML = name;
 
@@ -212,6 +234,9 @@ async function checkCommission() {
 
         commissionHalf.innerHTML =
             halfCommission.toLocaleString("vi-VN") + "đ";
+
+        cashbackRate.innerHTML =
+            cashbackPercent + "%";
 
     } catch (error) {
 
