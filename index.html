@@ -117,26 +117,17 @@
             Giá sản phẩm:
             <span id="productPrice"></span>
         </div>
-
-        <!-- Ẩn hoa hồng Xtra -->
         <div style="display:none;">
-            Hoa hồng Xtra:
-            <span id="commissionFull"></span>
-        </div>
+    Hoa hồng Xtra:
+    <span id="commissionFull"></span>
+</div>
+
 
         <div>
             Tiền hoàn có thể nhận được:
             <span
                 class="money"
                 id="commissionHalf"
-            ></span>
-        </div>
-
-        <div>
-            Tỷ lệ hoàn tiền dự kiến:
-            <span
-                class="money"
-                id="cashbackRate"
             ></span>
         </div>
 
@@ -168,9 +159,6 @@ async function checkCommission() {
     const commissionHalf =
         document.getElementById("commissionHalf");
 
-    const cashbackRate =
-        document.getElementById("cashbackRate");
-
     if (!link) {
 
         alert("Vui lòng nhập link Shopee");
@@ -186,7 +174,6 @@ async function checkCommission() {
     productPrice.innerHTML = "";
     commissionFull.innerHTML = "";
     commissionHalf.innerHTML = "";
-    cashbackRate.innerHTML = "";
 
     try {
 
@@ -198,7 +185,6 @@ async function checkCommission() {
         const data = await response.json();
 
         if (!data.productInfo) {
-
             throw new Error("Không lấy được dữ liệu");
         }
 
@@ -210,31 +196,11 @@ async function checkCommission() {
         const price =
             Number(info.price || 0);
 
-        // tổng hoa hồng
-        const totalCommission =
+        const commission =
             Number(info.commission || 0);
 
-        // hoa hồng cơ bản
-        const baseCommission =
-            Number(info.basicCommission || 0);
-
-        // chỉ lấy Xtra
-        const xtraCommission =
-            totalCommission - baseCommission;
-
-        // tiền hoàn = 50% Xtra
         const halfCommission =
-            Math.round(xtraCommission * 0.5);
-
-        // % Xtra
-        const xtraRate =
-            price > 0
-            ? (xtraCommission / price) * 100
-            : 0;
-
-        // % hoàn tiền
-        const cashbackPercent =
-            (xtraRate * 0.5).toFixed(1);
+            Math.round(commission * 0.5);
 
         productName.innerHTML = name;
 
@@ -242,13 +208,10 @@ async function checkCommission() {
             price.toLocaleString("vi-VN") + "đ";
 
         commissionFull.innerHTML =
-            xtraCommission.toLocaleString("vi-VN") + "đ";
+            commission.toLocaleString("vi-VN") + "đ";
 
         commissionHalf.innerHTML =
             halfCommission.toLocaleString("vi-VN") + "đ";
-
-        cashbackRate.innerHTML =
-            cashbackPercent + "%";
 
     } catch (error) {
 
