@@ -118,7 +118,7 @@
             <span id="productPrice"></span>
         </div>
 
-        <!-- Ẩn hoa hồng gốc -->
+        <!-- Ẩn hoa hồng Xtra -->
         <div style="display:none;">
             Hoa hồng Xtra:
             <span id="commissionFull"></span>
@@ -198,6 +198,7 @@ async function checkCommission() {
         const data = await response.json();
 
         if (!data.productInfo) {
+
             throw new Error("Không lấy được dữ liệu");
         }
 
@@ -209,22 +210,31 @@ async function checkCommission() {
         const price =
             Number(info.price || 0);
 
-        const commission =
+        // tổng hoa hồng
+        const totalCommission =
             Number(info.commission || 0);
 
-        // % hoa hồng Xtra
-const commissionRate =
-    price > 0
-    ? (commission / price) * 100
-    : 0;
+        // hoa hồng cơ bản
+        const baseCommission =
+            Number(info.basicCommission || 0);
 
-        // 50% tiền hoa hồng
+        // chỉ lấy Xtra
+        const xtraCommission =
+            totalCommission - baseCommission;
+
+        // tiền hoàn = 50% Xtra
         const halfCommission =
-            Math.round(commission * 0.5);
+            Math.round(xtraCommission * 0.5);
 
-        // 50% tỷ lệ hoàn tiền
-const cashbackPercent =
-    (commissionRate * 0.5).toFixed(1);
+        // % Xtra
+        const xtraRate =
+            price > 0
+            ? (xtraCommission / price) * 100
+            : 0;
+
+        // % hoàn tiền
+        const cashbackPercent =
+            (xtraRate * 0.5).toFixed(1);
 
         productName.innerHTML = name;
 
@@ -232,7 +242,7 @@ const cashbackPercent =
             price.toLocaleString("vi-VN") + "đ";
 
         commissionFull.innerHTML =
-            commission.toLocaleString("vi-VN") + "đ";
+            xtraCommission.toLocaleString("vi-VN") + "đ";
 
         commissionHalf.innerHTML =
             halfCommission.toLocaleString("vi-VN") + "đ";
