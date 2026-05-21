@@ -1,135 +1,372 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kiểm tra hoa hồng Shopee Xtra</title>
+
+    <meta charset="UTF-8" />
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    />
+
+    <title>
+        Tra Cứu Đơn Hàng Hoàn Tiền
+    </title>
 
     <style>
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f9;
-            padding: 40px 20px;
-            text-align: center;
-        }
+        * {
 
-        .container {
-            max-width: 520px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            color: #ee4d2d;
-            margin-bottom: 10px;
-        }
-
-        p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            margin-top: 20px;
             box-sizing: border-box;
         }
 
-        button {
+        body {
+
+            margin: 0;
+
+            padding: 30px 15px;
+
+            font-family: Arial, sans-serif;
+
+            background: #f5f5f5;
+        }
+
+        .container {
+
+            max-width: 1100px;
+
+            margin: 0 auto;
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+
+            margin: 0;
+
+            text-align: center;
+
+            font-size: 34px;
+
+            color: #111;
+        }
+
+        .top-box {
+
+            display: flex;
+
+            gap: 30px;
+
+            margin-top: 35px;
+
+            flex-wrap: wrap;
+        }
+
+        .input-box {
+
+            width: 300px;
+        }
+
+        textarea {
+
             width: 100%;
-            padding: 12px;
-            margin-top: 12px;
+
+            height: 180px;
+
+            border: 2px solid #2e7d32;
+
+            border-radius: 10px;
+
+            padding: 14px;
+
+            resize: none;
+
+            outline: none;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+        }
+
+        textarea:focus {
+
+            border-color: #1b5e20;
+        }
+
+        .search-btn {
+
+            width: 100%;
+
+            margin-top: 14px;
+
+            padding: 14px;
+
             border: none;
-            border-radius: 6px;
-            background: #ee4d2d;
+
+            border-radius: 10px;
+
+            background: #2e7d32;
+
             color: white;
+
             font-size: 16px;
+
             font-weight: bold;
+
             cursor: pointer;
         }
 
-        button:hover {
-            background: #d63d1e;
+        .search-btn:hover {
+
+            background: #256428;
         }
 
-        .result {
-            margin-top: 25px;
-            text-align: left;
-            background: #fafafa;
-            border: 1px dashed #ee4d2d;
-            padding: 15px;
-            border-radius: 8px;
-            display: none;
-            line-height: 1.7;
+        .note {
+
+            flex: 1;
+
+            min-width: 260px;
+
+            line-height: 1.9;
+
+            font-size: 15px;
         }
 
-        .title {
+        .note-title {
+
             font-weight: bold;
-            font-size: 18px;
+
             margin-bottom: 10px;
-            color: #222;
         }
 
-        .money {
-            color: #ee4d2d;
+        .red {
+
+            color: red;
+
             font-weight: bold;
-            font-size: 20px;
+        }
+
+        .table-wrap {
+
+            margin-top: 40px;
+
+            overflow-x: auto;
+        }
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+        .table-title {
+
+            background: #d84315;
+
+            color: white;
+
+            font-weight: bold;
+
+            font-size: 18px;
+
+            text-align: center;
+
+            padding: 14px;
+        }
+
+        th {
+
+            background: #e64a19;
+
+            color: white;
+
+            padding: 14px 10px;
+
+            border: 1px solid #cc3d13;
+
+            font-size: 14px;
+        }
+
+        td {
+
+            padding: 13px 10px;
+
+            border: 1px solid #ddd;
+
+            text-align: center;
+
+            font-size: 14px;
+        }
+
+        .success {
+
+            background: #e8f5e9;
+        }
+
+        .not-found {
+
+            color: red;
+
+            font-weight: bold;
         }
 
         .loading {
+
+            text-align: center;
+
+            padding: 20px;
+
             color: #666;
         }
 
+        .money {
+
+            color: #d84315;
+
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+
+            .top-box {
+
+                flex-direction: column;
+            }
+
+            .input-box {
+
+                width: 100%;
+            }
+        }
+
     </style>
+
 </head>
 <body>
 
 <div class="container">
 
-    <h1>Kiểm Tra Hoa Hồng Xtra</h1>
+    <h1>
+        TRA CỨU ĐƠN HÀNG HOÀN TIỀN
+    </h1>
 
-    <p>
-        Dán link sản phẩm Shopee để xem 50% hoa hồng Xtra
-    </p>
+    <div class="top-box">
 
-    <input
-        type="text"
-        id="productLink"
-        placeholder="Nhập link Shopee..."
-    >
+        <div class="input-box">
 
-    <button onclick="checkCommission()">
-        Kiểm Tra Hoa Hồng
-    </button>
+            <textarea
+                id="orderInput"
+                placeholder="Nhập ID đơn hàng&#10;Mỗi dòng 1 ID"
+            ></textarea>
 
-    <div class="result" id="resultBox">
+            <button
+                class="search-btn"
+                onclick="searchOrders()"
+            >
+                TRA CỨU ĐƠN HÀNG
+            </button>
 
-        <div class="title" id="productName"></div>
-
-        <div>
-            Giá sản phẩm:
-            <span id="productPrice"></span>
         </div>
 
-        <div>
-            Hoa hồng Xtra:
-            <span id="commissionFull"></span>
+        <div class="note">
+
+            <div class="note-title">
+                Lưu ý:
+            </div>
+
+            <div>
+                • Chỉ hiển thị đơn từ
+                <span class="red">
+                    01/04-17/05/2026
+                </span>
+            </div>
+
+            <div>
+                • Chỉ điền ID đơn hàng vào ô màu xanh
+            </div>
+
+            <div>
+                • Tra xong vui lòng xoá ID đã nhập
+            </div>
+
+            <div>
+                • Dữ liệu cập nhật 3–5 ngày/lần
+            </div>
+
         </div>
 
-        <div>
-            50% hoa hồng nhận được:
-            <span
-                class="money"
-                id="commissionHalf"
-            ></span>
-        </div>
+    </div>
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="table-title"
+                    >
+                        THÔNG TIN ĐƠN HÀNG HOÀN TIỀN
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+                        ID đơn hàng
+                    </th>
+
+                    <th>
+                        Trạng thái đặt hàng
+                    </th>
+
+                    <th>
+                        Thời gian đặt hàng
+                    </th>
+
+                    <th>
+                        Giá trị đơn hàng
+                    </th>
+
+                    <th>
+                        Tỷ lệ hoàn tiền
+                    </th>
+
+                    <th>
+                        Tiền hoàn dự kiến
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="resultBody">
+
+                <tr>
+
+                    <td colspan="6">
+
+                        Chưa có dữ liệu
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
 
     </div>
 
@@ -137,89 +374,196 @@
 
 <script>
 
-async function checkCommission() {
+/*
+
+====================================
+
+THAY LINK API CỦA BẠN Ở ĐÂY
+
+====================================
+
+*/
+
+const API_URL =
+    "YOUR_APPS_SCRIPT_API_URL";
+
+/*
+
+====================================
+
+TRA CỨU ĐƠN HÀNG
+
+====================================
+
+*/
+
+async function searchOrders() {
 
     const input =
-        document.getElementById("productLink");
+        document
+            .getElementById("orderInput")
+            .value
+            .trim();
 
-    const link = input.value.trim();
+    const resultBody =
+        document
+            .getElementById("resultBody");
 
-    const resultBox =
-        document.getElementById("resultBox");
+    if (!input) {
 
-    const productName =
-        document.getElementById("productName");
-
-    const productPrice =
-        document.getElementById("productPrice");
-
-    const commissionFull =
-        document.getElementById("commissionFull");
-
-    const commissionHalf =
-        document.getElementById("commissionHalf");
-
-    if (!link) {
-
-        alert("Vui lòng nhập link Shopee");
+        alert(
+            "Vui lòng nhập ID đơn hàng"
+        );
 
         return;
     }
 
-    resultBox.style.display = "block";
+    const orderIds =
+        input
+            .split("\n")
+            .map(id => id.trim())
+            .filter(id => id);
 
-    productName.innerHTML =
-        "<span class='loading'>Đang xử lý dữ liệu...</span>";
+    resultBody.innerHTML =
+        `
+        <tr>
 
-    productPrice.innerHTML = "";
-    commissionFull.innerHTML = "";
-    commissionHalf.innerHTML = "";
+            <td
+                colspan="6"
+                class="loading"
+            >
 
-    try {
+                Đang tra cứu dữ liệu...
 
-        const response = await fetch(
-            "https://data.addlivetag.com/product-data/product-data.php?url=" +
-            encodeURIComponent(link)
-        );
+            </td>
 
-        const data = await response.json();
+        </tr>
+        `;
 
-        if (!data.productInfo) {
-            throw new Error("Không lấy được dữ liệu");
+    let html = "";
+
+    for (const orderId of orderIds) {
+
+        try {
+
+            const response =
+                await fetch(
+
+                    API_URL +
+                    "?id=" +
+                    encodeURIComponent(orderId)
+
+                );
+
+            const data =
+                await response.json();
+
+            if (!data) {
+
+                html += `
+                    <tr>
+
+                        <td>
+
+                            ${orderId}
+
+                        </td>
+
+                        <td
+                            colspan="5"
+                            class="not-found"
+                        >
+
+                            Không tìm thấy đơn hàng
+
+                        </td>
+
+                    </tr>
+                `;
+
+                continue;
+            }
+
+            html += `
+                <tr class="success">
+
+                    <td>
+
+                        ${data.orderId}
+
+                    </td>
+
+                    <td>
+
+                        ${data.status}
+
+                    </td>
+
+                    <td>
+
+                        ${data.time}
+
+                    </td>
+
+                    <td>
+
+                        <span class="money">
+
+                            ${Number(
+                                data.amount
+                            ).toLocaleString("vi-VN")}đ
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        ${data.rate}%
+
+                    </td>
+
+                    <td>
+
+                        <span class="money">
+
+                            ${Number(
+                                data.cashback
+                            ).toLocaleString("vi-VN")}đ
+
+                        </span>
+
+                    </td>
+
+                </tr>
+            `;
+
+        } catch (error) {
+
+            html += `
+                <tr>
+
+                    <td>
+
+                        ${orderId}
+
+                    </td>
+
+                    <td
+                        colspan="5"
+                        class="not-found"
+                    >
+
+                        Lỗi tra cứu dữ liệu
+
+                    </td>
+
+                </tr>
+            `;
         }
-
-        const info = data.productInfo;
-
-        const name =
-            info.productName || "Không rõ tên";
-
-        const price =
-            Number(info.price || 0);
-
-        const commission =
-            Number(info.commission || 0);
-
-        const halfCommission =
-            Math.round(commission * 0.5);
-
-        productName.innerHTML = name;
-
-        productPrice.innerHTML =
-            price.toLocaleString("vi-VN") + "đ";
-
-        commissionFull.innerHTML =
-            commission.toLocaleString("vi-VN") + "đ";
-
-        commissionHalf.innerHTML =
-            halfCommission.toLocaleString("vi-VN") + "đ";
-
-    } catch (error) {
-
-        productName.innerHTML =
-            "Không lấy được dữ liệu hoa hồng.";
-
-        console.log(error);
     }
+
+    resultBody.innerHTML = html;
 }
 
 </script>
