@@ -129,15 +129,25 @@
 
             margin-top: 30px;
 
-            border-radius: 14px;
+            display: none;
+        }
+
+        .product-card {
 
             background: #fafafa;
 
             border: 1px solid #e0e0e0;
 
+            border-radius: 14px;
+
             padding: 22px;
 
-            display: none;
+            margin-bottom: 20px;
+        }
+
+        .product-card:last-child {
+
+            margin-bottom: 0;
         }
 
         .result-item {
@@ -161,11 +171,13 @@
 
         .value {
 
-            font-size: 20px;
+            font-size: 18px;
 
             font-weight: bold;
 
             color: #111;
+
+            line-height: 1.5;
         }
 
         .money {
@@ -178,6 +190,19 @@
             color: #2e7d32;
         }
 
+        .product-name {
+
+            font-size: 20px;
+
+            color: #111;
+
+            margin-bottom: 20px;
+
+            font-weight: bold;
+
+            line-height: 1.5;
+        }
+
         @media (max-width: 768px) {
 
             h1 {
@@ -186,6 +211,11 @@
             }
 
             .value {
+
+                font-size: 17px;
+            }
+
+            .product-name {
 
                 font-size: 18px;
             }
@@ -228,61 +258,7 @@
     <div
         class="result-box"
         id="resultBox"
-    >
-
-        <div class="result-item">
-
-            <div class="label">
-                Giá trị đơn hàng
-            </div>
-
-            <div
-                class="value money"
-                id="amount"
-            ></div>
-
-        </div>
-
-        <div class="result-item">
-
-            <div class="label">
-                Tỷ lệ hoàn tiền
-            </div>
-
-            <div
-                class="value rate"
-                id="rate"
-            ></div>
-
-        </div>
-
-        <div class="result-item">
-
-            <div class="label">
-                Tiền hoàn dự kiến
-            </div>
-
-            <div
-                class="value money"
-                id="cashback"
-            ></div>
-
-        </div>
-
-        <div class="result-item">
-
-            <div class="label">
-                Thời gian đặt hàng
-            </div>
-
-            <div
-                class="value"
-                id="time"
-            ></div>
-
-        </div>
-
-    </div>
+    ></div>
 
 </div>
 
@@ -326,6 +302,8 @@ async function searchOrder() {
 
     resultBox.style.display =
         "none";
+
+    resultBox.innerHTML = "";
 
     messageBox.style.display =
         "block";
@@ -371,38 +349,121 @@ async function searchOrder() {
             return;
         }
 
-        const item =
+        const items =
             Array.isArray(data)
-            ? data[0]
-            : data;
+            ? data
+            : [data];
 
-        document.getElementById(
-            "amount"
-        ).innerHTML =
-            Math.floor(
-    Number(item.amount || 0)
-).toLocaleString("vi-VN") + "đ";
+        let html = "";
 
-        document.getElementById(
-            "rate"
-        ).innerHTML =
-            (
+        items.forEach(item => {
+
+            const cashback =
                 Number(
-                    item.rate || 0
-                ) * 100
-            ).toFixed(0) + "%";
+                    item.cashback || 0
+                );
 
-        document.getElementById(
-            "cashback"
-        ).innerHTML =
-            Math.floor(
-    Number(item.cashback || 0)
-).toLocaleString("vi-VN") + "đ";
+            // Ẩn sản phẩm hoàn tiền = 0
 
-        document.getElementById(
-            "time"
-        ).innerHTML =
-            item.time || "-";
+            if (cashback <= 0) {
+
+                return;
+            }
+
+            html += `
+
+                <div class="product-card">
+
+                    <div class="product-name">
+
+                        ${item.product || "Sản phẩm"}
+
+                    </div>
+
+                    <div class="result-item">
+
+                        <div class="label">
+                            Giá trị đơn hàng
+                        </div>
+
+                        <div class="value money">
+
+                            ${Math.floor(
+                                Number(
+                                    item.amount || 0
+                                )
+                            ).toLocaleString("vi-VN")}đ
+
+                        </div>
+
+                    </div>
+
+                    <div class="result-item">
+
+                        <div class="label">
+                            Tỷ lệ hoàn tiền
+                        </div>
+
+                        <div class="value rate">
+
+                            ${(
+                                Number(
+                                    item.rate || 0
+                                ) * 100
+                            ).toFixed(0)}%
+
+                        </div>
+
+                    </div>
+
+                    <div class="result-item">
+
+                        <div class="label">
+                            Tiền hoàn dự kiến
+                        </div>
+
+                        <div class="value money">
+
+                            ${Math.floor(
+                                cashback
+                            ).toLocaleString("vi-VN")}đ
+
+                        </div>
+
+                    </div>
+
+                    <div class="result-item">
+
+                        <div class="label">
+                            Thời gian đặt hàng
+                        </div>
+
+                        <div class="value">
+
+                            ${item.time || "-"}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+        });
+
+        if (!html) {
+
+            resultBox.style.display =
+                "none";
+
+            messageBox.innerHTML =
+                "Không có sản phẩm được hoàn tiền";
+
+            return;
+        }
+
+        resultBox.innerHTML =
+            html;
 
         messageBox.style.display =
             "none";
