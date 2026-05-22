@@ -145,6 +145,11 @@
             margin-bottom: 18px;
         }
 
+        .result-item:last-child {
+
+            margin-bottom: 0;
+        }
+
         .label {
 
             font-size: 14px;
@@ -171,11 +176,6 @@
         .rate {
 
             color: #2e7d32;
-        }
-
-        .loading {
-
-            color: #666;
         }
 
         @media (max-width: 768px) {
@@ -208,6 +208,7 @@
             type="text"
             id="orderInput"
             placeholder="Nhập ID đơn hàng"
+            onkeypress="handleEnter(event)"
         />
 
         <button
@@ -290,6 +291,14 @@
 const API_URL =
     "https://script.google.com/macros/s/AKfycbwyqT1UHYGXIaQElUIWWDjAbn5gPcYMtfcbfQ115hTmwE97dRHZ4w8r7B63fG3fJwk8/exec";
 
+function handleEnter(event) {
+
+    if (event.key === "Enter") {
+
+        searchOrder();
+    }
+}
+
 async function searchOrder() {
 
     const orderId =
@@ -328,19 +337,29 @@ async function searchOrder() {
 
         const response =
             await fetch(
-
                 API_URL +
                 "?id=" +
                 encodeURIComponent(orderId)
-
             );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "API Error"
+            );
+        }
 
         const data =
             await response.json();
 
+        console.log(data);
+
         if (
             !data ||
-            data.length === 0
+            (
+                Array.isArray(data) &&
+                data.length === 0
+            )
         ) {
 
             resultBox.style.display =
@@ -352,33 +371,38 @@ async function searchOrder() {
             return;
         }
 
-        const item = data[0];
+        const item =
+            Array.isArray(data)
+            ? data[0]
+            : data;
 
         document.getElementById(
             "amount"
         ).innerHTML =
             Number(
-                item.amount
+                item.amount || 0
             ).toLocaleString("vi-VN") + "đ";
 
         document.getElementById(
             "rate"
         ).innerHTML =
             (
-                Number(item.rate) * 100
+                Number(
+                    item.rate || 0
+                ) * 100
             ).toFixed(0) + "%";
 
         document.getElementById(
             "cashback"
         ).innerHTML =
             Number(
-                item.cashback
+                item.cashback || 0
             ).toLocaleString("vi-VN") + "đ";
 
         document.getElementById(
             "time"
         ).innerHTML =
-            item.time;
+            item.time || "-";
 
         messageBox.style.display =
             "none";
