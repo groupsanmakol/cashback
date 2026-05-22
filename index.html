@@ -560,17 +560,17 @@ async function searchOrder() {
 
         if (!html) {
 
-            resultBox.style.display =
-                "none";
+    resultBox.style.display =
+        "none";
 
-            totalCashbackBox.style.display =
-                "none";
+    totalCashbackBox.style.display =
+        "none";
 
-            messageBox.innerHTML =
-                "Không có sản phẩm được hoàn tiền";
+    messageBox.innerHTML =
+        "Sản phẩm này không có hoàn tiền";
 
-            return;
-        }
+    return;
+}
 
         totalCashback.innerHTML =
             formatMoney(total);
