@@ -267,8 +267,8 @@ function formatMoney(value) {
 function formatRate(value) {
 
     return (
-        Number(value || 0) * 100
-    ).toFixed(0) + "%";
+    Number(value || 0) * 100
+).toFixed(2).replace(/\.00$/, "").replace(/(\.\d)0$/, "$1") + "%";
 }
 
 function formatTime(value) {
@@ -399,7 +399,7 @@ async function searchOrder() {
                     <div class="result-item">
 
                         <div class="label">
-                            Giá trị đơn hàng
+                            Giá trị sản phẩm sau áp mã
                         </div>
 
                         <div class="value money">
