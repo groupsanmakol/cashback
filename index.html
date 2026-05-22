@@ -190,19 +190,6 @@
             color: #2e7d32;
         }
 
-        .product-name {
-
-            font-size: 20px;
-
-            color: #111;
-
-            margin-bottom: 20px;
-
-            font-weight: bold;
-
-            line-height: 1.5;
-        }
-
         @media (max-width: 768px) {
 
             h1 {
@@ -213,11 +200,6 @@
             .value {
 
                 font-size: 17px;
-            }
-
-            .product-name {
-
-                font-size: 18px;
             }
         }
 
@@ -265,7 +247,7 @@
 <script>
 
 const API_URL =
-    "https://script.google.com/macros/s/AKfycbwapsph1Je-uNS9tdE8SqRZN_mVgv2gvbLZlNHg2fQvM734VIV8dUr6ckYcLB2ZiRtK/exec";
+    "https://script.google.com/macros/s/AKfycbzZs9XMJTbLWDo0-y459GQ0tnIKL9XAH813_191TAqfJBd7GW5LYFK6XUwVfMuprbzI/exec";
 
 function handleEnter(event) {
 
@@ -273,6 +255,32 @@ function handleEnter(event) {
 
         searchOrder();
     }
+}
+
+function formatMoney(value) {
+
+    return Math.floor(
+        Number(value || 0)
+    ).toLocaleString("vi-VN") + "đ";
+}
+
+function formatRate(value) {
+
+    return (
+        Number(value || 0) * 100
+    ).toFixed(0) + "%";
+}
+
+function formatTime(value) {
+
+    if (!value) {
+
+        return "-";
+    }
+
+    return String(value)
+        .replace("T", " ")
+        .replace(".000Z", "");
 }
 
 async function searchOrder() {
@@ -309,9 +317,7 @@ async function searchOrder() {
         "block";
 
     messageBox.innerHTML =
-    "Đang tra cứu dữ liệu...";
-
-resultBox.innerHTML = "";
+        "Đang tra cứu dữ liệu...";
 
     try {
 
@@ -376,9 +382,17 @@ resultBox.innerHTML = "";
 
                 <div class="product-card">
 
-                    <div class="product-name">
+                    <div class="result-item">
 
-                        ${item.product || "Sản phẩm"}
+                        <div class="label">
+                            Trạng thái đơn hàng
+                        </div>
+
+                        <div class="value">
+
+                            ${item.status || "-"}
+
+                        </div>
 
                     </div>
 
@@ -390,11 +404,7 @@ resultBox.innerHTML = "";
 
                         <div class="value money">
 
-                            ${Math.floor(
-                                Number(
-                                    item.amount || 0
-                                )
-                            ).toLocaleString("vi-VN")}đ
+                            ${formatMoney(item.amount)}
 
                         </div>
 
@@ -408,11 +418,7 @@ resultBox.innerHTML = "";
 
                         <div class="value rate">
 
-                            ${(
-                                Number(
-                                    item.rate || 0
-                                ) * 100
-                            ).toFixed(0)}%
+                            ${formatRate(item.rate)}
 
                         </div>
 
@@ -426,9 +432,7 @@ resultBox.innerHTML = "";
 
                         <div class="value money">
 
-                            ${Math.floor(
-                                cashback
-                            ).toLocaleString("vi-VN")}đ
+                            ${formatMoney(item.cashback)}
 
                         </div>
 
@@ -442,7 +446,7 @@ resultBox.innerHTML = "";
 
                         <div class="value">
 
-                            ${item.time || "-"}
+                            ${formatTime(item.time)}
 
                         </div>
 
@@ -465,17 +469,16 @@ resultBox.innerHTML = "";
         }
 
         resultBox.innerHTML =
-    html;
+            html;
 
-// Ẩn dòng "Đang tra cứu dữ liệu..."
+        messageBox.innerHTML =
+            "";
 
-messageBox.innerHTML = "";
+        messageBox.style.display =
+            "none";
 
-messageBox.style.display =
-    "none";
-
-resultBox.style.display =
-    "block";
+        resultBox.style.display =
+            "block";
 
     } catch (error) {
 
