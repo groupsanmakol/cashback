@@ -16,7 +16,6 @@
     <style>
 
         * {
-
             box-sizing: border-box;
         }
 
@@ -33,13 +32,13 @@
 
         .container {
 
-            max-width: 1000px;
+            max-width: 520px;
 
             margin: 0 auto;
 
             background: white;
 
-            border-radius: 14px;
+            border-radius: 16px;
 
             padding: 30px;
 
@@ -53,40 +52,32 @@
 
             text-align: center;
 
-            font-size: 34px;
+            font-size: 30px;
 
             color: #111;
         }
 
         .input-box {
 
-            max-width: 350px;
-
-            margin: 0 auto;
+            width: 100%;
         }
 
-        textarea {
+        input {
 
             width: 100%;
 
-            height: 180px;
+            padding: 15px;
 
             border: 2px solid #2e7d32;
 
             border-radius: 10px;
 
-            padding: 14px;
-
-            resize: none;
-
             outline: none;
 
-            font-size: 15px;
-
-            line-height: 1.6;
+            font-size: 16px;
         }
 
-        textarea:focus {
+        input:focus {
 
             border-color: #1b5e20;
         }
@@ -97,7 +88,7 @@
 
             margin-top: 14px;
 
-            padding: 14px;
+            padding: 15px;
 
             border: none;
 
@@ -121,7 +112,7 @@
 
         .message {
 
-            margin-top: 30px;
+            margin-top: 25px;
 
             text-align: center;
 
@@ -134,78 +125,55 @@
             display: none;
         }
 
-        .table-wrap {
+        .result-box {
 
-            margin-top: 40px;
+            margin-top: 30px;
 
-            overflow-x: auto;
+            border-radius: 14px;
+
+            background: #fafafa;
+
+            border: 1px solid #e0e0e0;
+
+            padding: 22px;
 
             display: none;
         }
 
-        table {
+        .result-item {
 
-            width: 100%;
-
-            border-collapse: collapse;
+            margin-bottom: 18px;
         }
 
-        .table-title {
+        .label {
 
-            background: #d84315;
+            font-size: 14px;
 
-            color: white;
+            color: #666;
+
+            margin-bottom: 6px;
+        }
+
+        .value {
+
+            font-size: 20px;
 
             font-weight: bold;
 
-            font-size: 18px;
-
-            text-align: center;
-
-            padding: 14px;
-        }
-
-        th {
-
-            background: #e64a19;
-
-            color: white;
-
-            padding: 14px 10px;
-
-            border: 1px solid #cc3d13;
-
-            font-size: 14px;
-        }
-
-        td {
-
-            padding: 13px 10px;
-
-            border: 1px solid #ddd;
-
-            text-align: center;
-
-            font-size: 14px;
-        }
-
-        .success {
-
-            background: #e8f5e9;
+            color: #111;
         }
 
         .money {
 
             color: #d84315;
+        }
 
-            font-weight: bold;
+        .rate {
+
+            color: #2e7d32;
         }
 
         .loading {
-
-            text-align: center;
-
-            padding: 20px;
 
             color: #666;
         }
@@ -214,7 +182,12 @@
 
             h1 {
 
-                font-size: 28px;
+                font-size: 26px;
+            }
+
+            .value {
+
+                font-size: 18px;
             }
         }
 
@@ -231,14 +204,15 @@
 
     <div class="input-box">
 
-        <textarea
+        <input
+            type="text"
             id="orderInput"
-            placeholder="Nhập ID đơn hàng&#10;Mỗi dòng 1 ID"
-        ></textarea>
+            placeholder="Nhập ID đơn hàng"
+        />
 
         <button
             class="search-btn"
-            onclick="searchOrders()"
+            onclick="searchOrder()"
         >
             TRA CỨU ĐƠN HÀNG
         </button>
@@ -251,60 +225,61 @@
     ></div>
 
     <div
-        class="table-wrap"
-        id="tableWrap"
+        class="result-box"
+        id="resultBox"
     >
 
-        <table>
+        <div class="result-item">
 
-            <thead>
+            <div class="label">
+                Giá trị đơn hàng
+            </div>
 
-                <tr>
+            <div
+                class="value money"
+                id="amount"
+            ></div>
 
-                    <td
-                        colspan="6"
-                        class="table-title"
-                    >
-                        THÔNG TIN ĐƠN HÀNG HOÀN TIỀN
-                    </td>
+        </div>
 
-                </tr>
+        <div class="result-item">
 
-                <tr>
+            <div class="label">
+                Tỷ lệ hoàn tiền
+            </div>
 
-                    <th>
-                        ID đơn hàng
-                    </th>
+            <div
+                class="value rate"
+                id="rate"
+            ></div>
 
-                    <th>
-                        Trạng thái đặt hàng
-                    </th>
+        </div>
 
-                    <th>
-                        Thời gian đặt hàng
-                    </th>
+        <div class="result-item">
 
-                    <th>
-                        Giá trị đơn hàng
-                    </th>
+            <div class="label">
+                Tiền hoàn dự kiến
+            </div>
 
-                    <th>
-                        Tỷ lệ hoàn tiền
-                    </th>
+            <div
+                class="value money"
+                id="cashback"
+            ></div>
 
-                    <th>
-                        Tiền hoàn dự kiến
-                    </th>
+        </div>
 
-                </tr>
+        <div class="result-item">
 
-            </thead>
+            <div class="label">
+                Thời gian đặt hàng
+            </div>
 
-            <tbody id="resultBody">
+            <div
+                class="value"
+                id="time"
+            ></div>
 
-            </tbody>
-
-        </table>
+        </div>
 
     </div>
 
@@ -312,50 +287,26 @@
 
 <script>
 
-/*
-
-==============================
-
-THAY API CỦA BẠN
-
-==============================
-
-*/
-
 const API_URL =
     "https://script.google.com/macros/s/AKfycbxP-n5ZaHjT-K_WXX9qXY08B0gNcbMLxAqPEI36xBiFykBxB289ocjM4u_IEwT_MYWD/exec";
 
-/*
+async function searchOrder() {
 
-==============================
-
-TRA CỨU ĐƠN HÀNG
-
-==============================
-
-*/
-
-async function searchOrders() {
-
-    const input =
+    const orderId =
         document
             .getElementById("orderInput")
             .value
             .trim();
 
-    const resultBody =
+    const resultBox =
         document
-            .getElementById("resultBody");
-
-    const tableWrap =
-        document
-            .getElementById("tableWrap");
+            .getElementById("resultBox");
 
     const messageBox =
         document
             .getElementById("messageBox");
 
-    if (!input) {
+    if (!orderId) {
 
         alert(
             "Vui lòng nhập ID đơn hàng"
@@ -364,127 +315,90 @@ async function searchOrders() {
         return;
     }
 
-    tableWrap.style.display = "none";
+    resultBox.style.display =
+        "none";
 
-    messageBox.style.display = "block";
+    messageBox.style.display =
+        "block";
 
     messageBox.innerHTML =
         "Đang tra cứu dữ liệu...";
 
-    const orderIds =
-        input
-            .split("\n")
-            .map(id => id.trim())
-            .filter(id => id);
+    try {
 
-    let html = "";
+        const response =
+            await fetch(
 
-    let found = false;
+                API_URL +
+                "?id=" +
+                encodeURIComponent(orderId)
 
-    for (const orderId of orderIds) {
+            );
 
-        try {
+        const data =
+            await response.json();
 
-            const response =
-                await fetch(
+        if (
+            !data ||
+            data.length === 0
+        ) {
 
-                    API_URL +
-                    "?id=" +
-                    encodeURIComponent(orderId)
+            resultBox.style.display =
+                "none";
 
-                );
+            messageBox.innerHTML =
+                "Không có dữ liệu đơn hàng";
 
-            const data =
-                await response.json();
-
-            if (!data) {
-
-                continue;
-            }
-
-            found = true;
-
-            html += `
-                <tr class="success">
-
-                    <td>
-
-                        ${data.orderId}
-
-                    </td>
-
-                    <td>
-
-                        ${data.status}
-
-                    </td>
-
-                    <td>
-
-                        ${data.time}
-
-                    </td>
-
-                    <td>
-
-                        <span class="money">
-
-                            ${Number(
-                                data.amount
-                            ).toLocaleString("vi-VN")}đ
-
-                        </span>
-
-                    </td>
-
-                    <td>
-
-                        ${data.rate}%
-
-                    </td>
-
-                    <td>
-
-                        <span class="money">
-
-                            ${Number(
-                                data.cashback
-                            ).toLocaleString("vi-VN")}đ
-
-                        </span>
-
-                    </td>
-
-                </tr>
-            `;
-
-        } catch (error) {
-
-            console.log(error);
+            return;
         }
-    }
 
-    if (!found) {
+        const item = data[0];
 
-        tableWrap.style.display =
+        document.getElementById(
+            "amount"
+        ).innerHTML =
+            Number(
+                item.amount
+            ).toLocaleString("vi-VN") + "đ";
+
+        document.getElementById(
+            "rate"
+        ).innerHTML =
+            (
+                Number(item.rate) * 100
+            ).toFixed(0) + "%";
+
+        document.getElementById(
+            "cashback"
+        ).innerHTML =
+            Number(
+                item.cashback
+            ).toLocaleString("vi-VN") + "đ";
+
+        document.getElementById(
+            "time"
+        ).innerHTML =
+            item.time;
+
+        messageBox.style.display =
+            "none";
+
+        resultBox.style.display =
+            "block";
+
+    } catch (error) {
+
+        console.log(error);
+
+        resultBox.style.display =
             "none";
 
         messageBox.style.display =
             "block";
 
         messageBox.innerHTML =
-            "Không có dữ liệu đơn hàng";
-
-        return;
+            "Lỗi tra cứu dữ liệu";
     }
-
-    resultBody.innerHTML = html;
-
-    messageBox.style.display =
-        "none";
-
-    tableWrap.style.display =
-        "block";
 }
 
 </script>
