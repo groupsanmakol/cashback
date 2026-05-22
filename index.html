@@ -213,7 +213,17 @@
     <h1>
         TRA CỨU ĐƠN HÀNG HOÀN TIỀN
     </h1>
-
+<div
+    id="updateDate"
+    style="
+        text-align:center;
+        color:#666;
+        font-size:14px;
+        margin-bottom:25px;
+    "
+>
+    Dữ liệu cập nhật gần nhất: --
+</div>
     <div class="input-box">
 
         <input
@@ -335,8 +345,19 @@ async function searchOrder() {
             );
         }
 
-        const data =
-            await response.json();
+        const responseData =
+    await response.json();
+
+const data =
+    responseData.data || [];
+
+document.getElementById(
+    "updateDate"
+).innerHTML =
+    "Dữ liệu cập nhật gần nhất: " +
+    (
+        responseData.updateDate || "--"
+    );
 
         console.log(data);
 
