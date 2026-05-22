@@ -463,13 +463,17 @@ async function searchOrder() {
         }
 
         resultBox.innerHTML =
-            html;
+    html;
 
-        messageBox.style.display =
-            "none";
+// Ẩn dòng "Đang tra cứu dữ liệu..."
 
-        resultBox.style.display =
-            "block";
+messageBox.innerHTML = "";
+
+messageBox.style.display =
+    "none";
+
+resultBox.style.display =
+    "block";
 
     } catch (error) {
 
