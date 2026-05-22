@@ -436,6 +436,8 @@ async function searchOrder() {
                 responseData.updateDate || "--"
             );
 
+        // Không có dữ liệu đơn
+
         if (
             !data ||
             (
@@ -461,27 +463,39 @@ async function searchOrder() {
             ? data
             : [data];
 
+        // Chỉ lấy sản phẩm có cashback > 0
+
+        const validItems =
+            items.filter(item =>
+                Number(item.cashback || 0) > 0
+            );
+
+        // Nếu tất cả sản phẩm cashback = 0
+
+        if (validItems.length === 0) {
+
+            resultBox.style.display =
+                "none";
+
+            totalCashbackBox.style.display =
+                "none";
+
+            messageBox.innerHTML =
+                "Đơn hàng này không có hoàn tiền";
+
+            return;
+        }
+
         let html = "";
 
         let total = 0;
 
-        let validProductCount = 0;
-
-        items.forEach(item => {
+        validItems.forEach(item => {
 
             const cashback =
                 Number(
                     item.cashback || 0
                 );
-
-            // Bỏ qua sản phẩm không có hoàn tiền
-
-            if (cashback <= 0) {
-
-                return;
-            }
-
-            validProductCount++;
 
             total += cashback;
 
@@ -564,22 +578,6 @@ async function searchOrder() {
             `;
         });
 
-        // Có đơn nhưng không có cashback
-
-        if (validProductCount === 0) {
-
-            resultBox.style.display =
-                "none";
-
-            totalCashbackBox.style.display =
-                "none";
-
-            messageBox.innerHTML =
-                "Sản phẩm này không có hoàn tiền";
-
-            return;
-        }
-
         totalCashback.innerHTML =
             formatMoney(total);
 
@@ -617,6 +615,5 @@ async function searchOrder() {
 }
 
 </script>
-
 </body>
 </html>
